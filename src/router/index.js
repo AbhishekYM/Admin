@@ -37,11 +37,11 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
       next();
     }
   } else {
-    const publicPages = ['/login', '/register', '/forgot-password'];
-    const authpage = !publicPages.includes(routeTo.path);
-    if (authpage && !hasAccessToken) {
-      return next('/login');
-    }
+    // const publicPages = ['/login', '/register', '/forgot-password',];
+    // const authpage = !publicPages.includes(routeTo.path);
+    // if (authpage && !hasAccessToken) {
+    //   return next('/login');
+    // }
 
     next();
   }

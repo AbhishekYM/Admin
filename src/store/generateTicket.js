@@ -364,25 +364,21 @@ export const useGenerateTicket = defineStore("generateTicket", () => {
     // }
   }
   async function generateTicketPDFPrint(ticketId) {
-    // if (form.mode_of_payment === 'QR') {
-      try {
-        const pdfResponse = await window.axios.get(
-          `/tickets/${ticketId}/pdf`,
-          {
-            responseType: "blob",
-          }
-        );
-        const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
-        const objectUrl = URL.createObjectURL(blob);
-        window.open(objectUrl, "_blank");
-      } catch (error) {
-        console.error("Error generating ticket PDF:", error);
-      }
-    // } else {
-    //   // Handle other payment modes or show error message
-    //   console.error("Invalid mode of payment");
-    // }
+    try {
+      const pdfResponse = await window.axios.get(
+        `/tickets/${ticketId}/pdf`,
+        {
+          responseType: "blob",
+        }
+      );
+      const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, "_blank");
+    } catch (error) {
+      console.error("Error generating ticket PDF:", error);
+    }
   }
+   
   function validateInput(event) {
     const inputChar = event.key;
     const regex = /^[a-zA-Z]+$/;

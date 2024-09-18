@@ -1,76 +1,14 @@
-<script>
-import { authMethods } from "@/state/helpers";
-import appConfig from "../../../app.config";
-import { required, email, helpers } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
+<script setup>
+ // eslint-disable-next-line
+import { useResetPasswordStore } from '/src/store/forgetpassword.js';
+import {  useRoute } from 'vue-router';
 
-export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  validations: {
-    email: {
-      required: helpers.withMessage("Email is required", required),
-      email: helpers.withMessage("Please enter valid email", email),
-    },
-  },
-  page: {
-    title: "Forgot Password",
-    meta: [
-      {
-        name: "description",
-        content: appConfig.description,
-      },
-    ],
-  },
-  beforeCreate() {
-    document.documentElement.setAttribute('data-theme', 'default');
-  },
-  data() {
-    return {
-      email: "",
-      submitted: false,
-      error: null,
-      tryingToReset: false,
-      isResetError: false,
-    };
-  },
-  methods: {
-    ...authMethods,
-    // Try to register the user in with the email, fullname
-    // and password they provided.
-    tryToReset() {
-      this.submitted = true;
-      // stop here if form is invalid
-      this.v$.$touch();
+const store = useResetPasswordStore();
+const route = useRoute();
 
-      if (this.v$.$invalid) {
-        return;
-      } else {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          this.tryingToReset = true;
-          // Reset the authError if it existed.
-          this.error = null;
-          return (
-            this.resetPassword({
-              email: this.email,
-            })
-              // eslint-disable-next-line no-unused-vars
-              .then((token) => {
-                this.tryingToReset = false;
-                this.isResetError = false;
-              })
-              .catch((error) => {
-                this.tryingToReset = false;
-                this.error = error ? error : "";
-                this.isResetError = true;
-              })
-          );
-        }
-      }
-    },
-  },
-};
+const emailFromLogin = route.query.email;
+store.email = emailFromLogin;
+
 </script>
 
 <template>
@@ -97,7 +35,7 @@ export default {
                           class="effect-circle-2 position-relative mx-auto rounded-circle d-flex align-items-center justify-content-center">
                           <div
                             class="effect-circle-3 mx-auto rounded-circle position-relative text-white fs-4xl d-flex align-items-center justify-content-center">
-                            Welcome to <span class="text-primary ms-1">Steex</span>
+                            Welcome to <span class="text-primary ms-1">Forest Department</span>
                           </div>
                         </div>
                       </div>
@@ -140,13 +78,13 @@ export default {
                       </ul>
                     </div>
 
-                    <div class="text-center">
+                    <!-- <div class="text-center">
                       <p class="text-white opacity-75 mb-0 mt-3">
                         &copy;
                         {{ new Date().getFullYear() }} Steex. Crafted with <i class="mdi mdi-heart text-danger"></i> by
                         Themesbrand
                       </p>
-                    </div>
+                    </div> -->
                   </BCardBody>
                 </BCard>
               </BCol>
@@ -155,28 +93,26 @@ export default {
                   <BCardBody class="p-sm-5 m-lg-4">
                     <div class="text-center mt-2">
                       <h5 class="fs-3xl">Forgot Password?</h5>
-                      <p class="text-muted mb-4">Reset password with Steex</p>
+                      <!-- <p class="text-muted mb-4">Reset password </p> -->
                       <div class="pb-4">
                         <img src="@/assets/images/auth/email.png" alt="" class="avatar-md" />
                       </div>
                     </div>
 
                     <BAlert :model-value="true" variant="warning" class="border-0 text-center mb-2 mx-2">Enter your email
-                      and instructions will be sent to you!</BAlert>
+                      and otp will be sent to you!</BAlert>
                     <div class="p-2">
                       <BAlert v-model="isResetError" class="mb-4" variant="danger" dismissible>{{ error }}</BAlert>
-                      <BForm @submit.prevent="tryToReset">
+                      <BForm >
                         <div class="mb-4">
                           <label class="form-label">Email</label>
                           <BFormInput type="email" class="password-input" id="email" placeholder="Enter Email"
-                            v-model="email" :class="{ 'is-invalid': submitted && v$.email.$errors }" required />
-                          <div v-for="(item, index) in v$.email.$errors" :key="index" class="invalid-feedback">
-                            <span v-if="item.$message">{{ item.$message }}</span>
-                          </div>
+                            v-model="store.email"  required />
+                      
                         </div>
 
                         <div class="text-center mt-4">
-                          <BButton variant="primary" class="w-100" type="submit">Send Reset Link</BButton>
+                          <BButton variant="primary" class="w-100" @click="store.requestResetPassword">Send Otp</BButton>
                         </div>
                       </BForm>
                     </div>
@@ -186,9 +122,7 @@ export default {
                     </div>
                   </BCardBody>
                 </BCard>
-                <div v-for="(item, index) in v$.email.$errors" :key="index" class="invalid-feedback">
-                  <span v-if="item.$message">{{ item.$message }}</span>
-                </div>
+              
               </BCol>
             </BRow>
           </BCard>

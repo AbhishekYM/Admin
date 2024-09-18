@@ -7,15 +7,14 @@ export default [
         name: "login",
         component: () => import("../views/account/login.vue"),
         meta: {
-          title: "Login",
-          beforeResolve(routeTo, routeFrom, next) {
-            console.log('Route guard for login:', store.getters["auth/loggedIn"]);
-            if (store.getters["auth/loggedIn"]) {
-              next({ name: "default" });
-            } else {
-              next();
-            }
-          },
+            title: "Login",
+            beforeResolve(routeTo, routeFrom, next) {
+                if (store.getters["auth/loggedIn"]) {
+                    next({ name: "default" });
+                } else {
+                    next();
+                }
+            },
         },
       },
       
@@ -28,7 +27,6 @@ export default [
             beforeResolve(routeTo, routeFrom, next) {
                 // If the user is already logged in
                 if (store.getters["auth/loggedIn"]) {
-                    // Redirect to the home page instead
                     next({ name: "default" });
                 } else {
                     // Continue to the login page
@@ -41,21 +39,18 @@ export default [
         path: "/forgot-password",
         name: "Forgot password",
         component: () => import("../views/account/forgot-password.vue"),
-        meta: {
-            title: "Forgot Password",
-            beforeResolve(routeTo, routeFrom, next) {
-                // If the user is already logged in
-                if (store.getters["auth/loggedIn"]) {
-                    // Redirect to the home page instead
-                    next({ name: "default" });
-                } else {
-                    // Continue to the login page
-                    next();
-                }
-            },
-        },
     },
-
+    {
+        path: "/verifyOtp/:reset_token/:email",
+        name: "verifyOtp",
+        component: () => import("../views/account/verify-otp.vue"),
+      },
+      {
+        path: "/reset-password/:reset_token",
+        name: "reset-password-form",
+        meta: { requiresAuth: false },
+        component: () => import("../views/account/reset-password.vue"),
+      },
     {
         path: "/logout",
         name: "logout",
