@@ -44,7 +44,7 @@ const showErrorModal = ref(false);
     try {
         loading.value = true; 
       const ticketId = verificationOtp.value.id;
-      const pdfResponse = await window.axios.get(`tickets/tickets/${ticketId}/pdf`, {
+      const pdfResponse = await window.axios.get(`/tickets/${ticketId}/pdf`, {
         responseType: "blob",
       });
       const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
@@ -170,16 +170,19 @@ const showErrorModal = ref(false);
       }
     }
     async function generateTicketPDF(ticketId) {
-    try {
-      const pdfResponse = await window.axios.get(`tickets/tickets/${ticketId}/pdf`, {
-        responseType: "blob",
-      });
-      const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
-      const objectUrl = URL.createObjectURL(blob);
-      window.open(objectUrl, "_blank");
-    } catch (error) {
-      console.log(error);
-    }
+      try {
+        const pdfResponse = await window.axios.get(
+          `/tickets/${ticketId}/pdf`,
+          {
+            responseType: "blob",
+          }
+        );
+        const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
+        const objectUrl = URL.createObjectURL(blob);
+        window.open(objectUrl, "_blank");
+      } catch (error) {
+        console.error("Error generating ticket PDF:", error);
+      }
   }
   return {  
     loading, successMessage,showSuccessModal,errorMessage,
