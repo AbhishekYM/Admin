@@ -25,11 +25,9 @@ export default [
         meta: {
             title: "Register",
             beforeResolve(routeTo, routeFrom, next) {
-                // If the user is already logged in
                 if (store.getters["auth/loggedIn"]) {
                     next({ name: "default" });
                 } else {
-                    // Continue to the login page
                     next();
                 }
             },

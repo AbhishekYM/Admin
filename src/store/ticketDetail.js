@@ -95,7 +95,9 @@ export const getTicket = defineStore("ticket", () => {
           //   text: "There are no tickets matching the selected criteria.",
           // });
         }
-        ticket.value = responseData;        
+        ticket.value = responseData;    
+        loading.value = false;
+    
       })
       .catch((error) => {
         console.error("Error:", error);

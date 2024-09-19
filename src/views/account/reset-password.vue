@@ -29,7 +29,6 @@ const maskedEmail = computed(() => {
                                         <p class="text-white opacity-75 fs-base">It brings together your tasks, projects, timelines, files
                                             and more</p>
                                     </div>
-
                                     <div class="auth-effect-main my-5 position-relative rounded-circle d-flex align-items-center justify-content-center mx-auto">
                                         <div class="effect-circle-1 position-relative mx-auto rounded-circle d-flex align-items-center justify-content-center">
                                             <div class="effect-circle-2 position-relative mx-auto rounded-circle d-flex align-items-center justify-content-center">
@@ -76,7 +75,6 @@ const maskedEmail = computed(() => {
                                             </li>
                                         </ul>
                                     </div>
-
                                     <!-- <div class="text-center">
                       <p class="text-white opacity-75 mb-0 mt-3">
                         &copy;
@@ -98,7 +96,6 @@ const maskedEmail = computed(() => {
                                             <img src="@/assets/images/auth/email.png" alt="" class="avatar-md" />
                                         </div>
                                     </div>
-
                                     <BAlert :model-value="true" variant="warning" class="border-0 text-center mb-2 mx-2">Enter your otp
                                     </BAlert>
                                     <div class="p-2">
@@ -108,7 +105,6 @@ const maskedEmail = computed(() => {
                                             <div class="mb-4">
                                                 <label class="form-label">Otp</label>
                                                 <BFormInput class="password-input" id="email" placeholder="Enter Otp" v-model="store.form.otp" required />
-
                                                 <div class="input-group-append d-flex justify-content-end">
                                                     <BButton variant="link" class="text-primary" @click="store.resendOtp">
                                                         Resend Otp?
@@ -116,10 +112,8 @@ const maskedEmail = computed(() => {
                                                 </div>
                                             </div>
                                             <input type="hidden" v-model="store.form.reset_token" name="reset_token" />
-
                                             <div class="text-center mt-4">
                                                 <BButton variant="primary" class="w-100" @click="store.verifyOtp">Send Otp</BButton>
-
                                             </div>
                                         </BForm>
                                     </div>
@@ -129,7 +123,6 @@ const maskedEmail = computed(() => {
                                     </div>
                                 </BCardBody>
                             </BCard>
-
                         </BCol>
                     </BRow>
                 </BCard>

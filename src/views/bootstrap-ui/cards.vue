@@ -25,7 +25,6 @@ export default {
     },
     methods: {
         delcard(e) { e.target.closest(".card").parentElement.remove(); },
-
         spinner(id) {
             document.getElementById(id).classList.remove("d-none");
             document.getElementById(id).classList.add("d-block");

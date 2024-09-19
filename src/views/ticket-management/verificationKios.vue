@@ -83,6 +83,9 @@ const validateInputs = (event) => {
             <BBreadcrumbItem href="#general">Verification Kios</BBreadcrumbItem>
         </BBreadcrumb>
     </div>
+    <div v-if="store.loading" class="loader-overlay">
+            <img src="/03-19-26-213_512.gif" alt="Loading..." class="loader-gif" />
+        </div>
     <BModal v-model="store.showErrorModal" hide-footer id="exampleModal">
             <div class="text-start">
                 <div class="d-flex align-items-center mb-3">
@@ -184,3 +187,22 @@ const validateInputs = (event) => {
     </BCard>
 </Layout>
 </template>
+<style>
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slight overlay */
+    z-index: 1000;
+}
+
+.loader-gif {
+    width: 100px; /* Adjust size as needed */
+    height: 100px;
+}
+</style>

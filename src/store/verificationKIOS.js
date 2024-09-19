@@ -8,6 +8,7 @@ export const useVerificationKIOS = defineStore("verificationKIOS", () => {
   const verificationStatus = ref("");
   // const $q = useQuasar();
   const verifcation = ref([]);
+  const loading = ref(false);
   const verificationOtp = ref([]);
   const showAlternativeContact = ref(false);
   const showTable = ref(false);
@@ -41,7 +42,7 @@ const showErrorModal = ref(false);
 
   async function executeGenerationPdf() {
     try {
-        // loading.value = true; 
+        loading.value = true; 
       const ticketId = verificationOtp.value.id;
       const pdfResponse = await window.axios.get(`tickets/tickets/${ticketId}/pdf`, {
         responseType: "blob",
@@ -56,7 +57,7 @@ const showErrorModal = ref(false);
       // Handle errors
     }
     finally {
-        // loading.value = false;
+        loading.value = false;
         // pdfGenerated.value = false;
       }
   }
@@ -102,7 +103,7 @@ const showErrorModal = ref(false);
     }
     
     } finally {
-      // loading.value = false;
+      loading.value = false;
     }
   }
 
@@ -181,7 +182,7 @@ const showErrorModal = ref(false);
     }
   }
   return {  
-    successMessage,showSuccessModal,errorMessage,
+    loading, successMessage,showSuccessModal,errorMessage,
     showErrorModal,  fetchTicketDetails, ticketDetails,form,generateTicketPDF,showTable,verifyOTP,showOtp,fetchContactByVerificationCode,
     verificationStatus,verifcation,verificationOtp,
     resetForm,executeGenerationPdf,

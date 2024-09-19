@@ -58,6 +58,9 @@ const setPage = (newPage) => {
             <BBreadcrumbItem href="#general">Age Category</BBreadcrumbItem>
         </BBreadcrumb>
     </div>
+    <div v-if="store.loading" class="loader-overlay">
+            <img src="/03-19-26-213_512.gif" alt="Loading..." class="loader-gif" />
+        </div>
     <BCard>
         <BCardHeader>
             <BRow class="align-items-center g-2">
@@ -247,3 +250,22 @@ const setPage = (newPage) => {
     </BCard>
 </Layout>
 </template>
+<style>
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slight overlay */
+    z-index: 1000;
+}
+
+.loader-gif {
+    width: 100px; /* Adjust size as needed */
+    height: 100px;
+}
+</style>

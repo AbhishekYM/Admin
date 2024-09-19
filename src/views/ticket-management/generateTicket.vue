@@ -230,6 +230,11 @@ const filteredSlots = computed(() => {
             <BBreadcrumbItem href="#general">Generate Ticket</BBreadcrumbItem>
         </BBreadcrumb>
     </div>
+    <div v-if="store.loading" class="loader-overlay">
+            <img src="/03-19-26-213_512.gif" alt="Loading..." class="loader-gif" />
+        </div>
+
+
     <BModal v-model="showSuccessModal" hide-footer id="successModal">
   <div class="text-start">
     <div class="d-flex align-items-center mb-3">
@@ -467,5 +472,22 @@ const filteredSlots = computed(() => {
   word-wrap: break-word; /* Ensures long words or text break and wrap to the next line */
   overflow-wrap: break-word; /* Same as word-wrap but the newer standard */
   white-space: normal; /* Allow text to wrap within the cell */
+}
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slight overlay */
+    z-index: 1000;
+}
+
+.loader-gif {
+    width: 100px; /* Adjust size as needed */
+    height: 100px;
 }
 </style>
