@@ -2,7 +2,9 @@
 <Layout>
   <div v-if="loading" class="loading-message">Loading ticket details...</div>
     <div v-if="error" class="error-message">{{ error }}</div>
-  <div v-if="ticketDetails" :class="{'pdf-view': showPdf, 'regular-view': !showPdf}" class="ticket-details">
+    
+    <div v-if="ticketDetails" :class="{'pdf-view': showPdf, 'regular-view': !showPdf}" class="ticket-details">
+      <BButton @click="printTicket"  class="print-button">Print Ticket</BButton>
         <div class="ticket-header">
             <div class="header-content">
                 <img src="/aviary-logo.jpeg" alt="Aviary Logo" class="header-image">
@@ -121,7 +123,6 @@
                 </div>
                 <div class="page-break"></div>
             </div>
-            <BButton @click="printTicket"  class="print-button">Print</BButton>
         </div>
         <!-- PDF Viewer -->
     </Layout>
@@ -188,7 +189,7 @@ onMounted(() => {
         margin: 0; /* Set margin to zero if needed */
     }
     .print-button {
-        display: none; 
+        display: none !important; 
     }
 
     .ticket-details, .ticket-details * {
