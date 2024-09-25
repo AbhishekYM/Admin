@@ -1,5 +1,20 @@
+/* eslint-disable */
 import store from "@/state/store";
+import { createRouter, createWebHistory } from 'vue-router';
 
+function auth(to, from, next) {
+  if (!localStorage.getItem("access_token")) {
+    return next({ name: "login" });
+  }
+  next();
+}
+
+function guest(to, from, next) {
+  if (localStorage.getItem("access_token")) {
+    return next({ name: "dashboard" });
+  }
+  next();
+}
 export default [
     // authe
     {
@@ -60,46 +75,53 @@ export default [
     {
         path: "/ticketDashboard",
         name: "defaultss",
-        meta: { title: "ticketDashboard", authRequired: true },
+        meta: { title: "ticketDashboard" },
+        beforeEnter: auth,
         component: () => import("../views/dashboards/analytics/index.vue"),
     },
     {
         path: "/",
         name: "default",
-        meta: { title: "ticketDashboard", authRequired: true },
+        meta: { title: "ticketDashboard" },
         component: () => import("../views/dashboards/analytics/test.vue"),
+        beforeEnter: auth
+
     },
     {
         path: "/dashboard/crm",
         name: "crm",
-        meta: { title: "CRM", authRequired: true },
+        meta: { title: "CRM" },
+        beforeEnter: auth,
         component: () => import("../views/dashboards/crm/index.vue"),
     },
     {
         path: "/ssd",
         name: "defaults",
-        meta: { title: "Dashboard", authRequired: true },
+        meta: { title: "Dashboard"},
+        beforeEnter: auth,
         component: () => import("../views/dashboards/ecommerce/index.vue"),
     },
     {
         path: "/dashboard/learning",
         name: "learning",
-        meta: { title: "Learning", authRequired: true },
+        meta: { title: "Learning" },
+        beforeEnter: auth,
         component: () => import("../views/dashboards/learning/index.vue"),
     },
     {
         path: "/dashboard/real-estate",
         name: "realEstate",
-        meta: { title: "Real Estate", authRequired: true },
+        meta: { title: "Real Estate"},
+        beforeEnter: auth,
         component: () => import("../views/dashboards/realEstate/index.vue"),
     },
-
     // Apps
     // Calendar
     {
         path: "/calendar",
         name: "calendar",
-        meta: { title: "Calendar", authRequired: true },
+        meta: { title: "Calendar" },
+        beforeEnter: auth,
         component: () => import("../views/calendar/index.vue"),
     },
 
@@ -107,7 +129,8 @@ export default [
     {
         path: "/chat",
         name: "chat",
-        meta: { title: "Chat", authRequired: true },
+        meta: { title: "Chat" },
+        beforeEnter: auth,
         component: () => import("../views/chat/index.vue"),
     },
 
@@ -115,7 +138,8 @@ export default [
     {
         path: "/email",
         name: "email",
-        meta: { title: "Email", authRequired: true },
+        meta: { title: "Email" },
+        beforeEnter: auth,
         component: () => import("../views/email/index.vue"),
     },
 
@@ -124,243 +148,290 @@ export default [
     {
         path: "/User/index",
         name: "users",
-        meta: { title: "Users", authRequired: true },
+        meta: { title: "Users" },
+        beforeEnter: auth,
         component: () => import("../views/User Management/User/index.vue"),
     },
     {
         path: "/Designation/index",
         name: "designations",
-        meta: { title: "Designations", authRequired: true },
+        meta: { title: "Designations" },
+        beforeEnter: auth,
         component: () => import("../views/User Management/Designation/index.vue"),
     },
     {
         path: "/Permission/index",
         name: "permissions",
-        meta: { title: "Permissions", authRequired: true },
+        meta: { title: "Permissions" },
+        beforeEnter: auth,
         component: () => import("../views/User Management/Permission/index.vue"),
     },
     {
         path: "/Role/index",
         name: "roles",
-        meta: { title: "Roles", authRequired: true },
+        meta: { title: "Roles"},
+        beforeEnter: auth,
         component: () => import("../views/User Management/Roles/index.vue"),
     },
     {
         path: "/bird-category/index",
         name: "birdCategory",
-        meta: { title: "birdCategory", authRequired: true },
+        meta: { title: "birdCategory" },
+        beforeEnter: auth,
         component: () => import("../views/Category/bird-category/index.vue"),
     },
     {
         path: "/animal-category/index",
         name: "animalCategory",
-        meta: { title: "animalCategory", authRequired: true },
+        meta: { title: "animalCategory" },
+        beforeEnter: auth,
         component: () => import("../views/Category/bird-category/animalCategory.vue"),
     },
     {
         path: "/bird/entry",
         name: "birdEntry",
-        meta: { title: "birdEntry", authRequired: true },
+        meta: { title: "birdEntry" },
+        beforeEnter: auth,
         component: () => import("../views/Bird/index.vue"),
     },
     {
         path: '/birdsEntryDetails/:id',
         name: 'birdsEntryDetails',
         component: () => import('../views/Bird/birdEntryDetails.vue'),
+        beforeEnter: auth,
     },
     {
         path: "/bird-type/index",
         name: "birdType",
-        meta: { title: "birdType", authRequired: true },
+        meta: { title: "birdType" },
         component: () => import("../views/Category/bird-category/birdType.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-vendor/index",
         name: "birdVendor",
-        meta: { title: "birdVendor", authRequired: true },
+        meta: { title: "birdVendor" },
         component: () => import("../views/Category/bird-category/vendor.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-pending/index",
         name: "birdPendingEntries",
-        meta: { title: "birdPendingEntries", authRequired: true },
+        meta: { title: "birdPendingEntries", },
         component: () => import("../views/Bird/birdPendingEntry.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-exchange/index",
         name: "exchangeIndex",
-        meta: { title: "exchangeIndex", authRequired: true },
+        meta: { title: "exchangeIndex", },
         component: () => import("../views/Bird/exchangeIndex.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-exchange-pending/index",
         name: "exchangePendingEntries",
-        meta: { title: "exchangePendingEntries", authRequired: true },
+        meta: { title: "exchangePendingEntries" },
         component: () => import("../views/Bird/InOutPendingEntry.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-exchange/inOutEntry/:id",
         name: "exchangeInOutEntry",
-        meta: { title: "exchangeInOutEntry", authRequired: true },
+        meta: { title: "exchangeInOutEntry" },
         component: () => import("../views/Bird/InOutEntryForm.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-report",
         name: "birdReport",
-        meta: { title: "birdReport", authRequired: true},
+        meta: { title: "birdReport"},
         component: () => import("../views/Bird/report.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-health-history/index",
         name: "birdHealthHistory",
-        meta: { title: "birdHealthHistory", authRequired: true},
+        meta: { title: "birdHealthHistory",},
         component: () => import("../views/bird-health-history/index.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-health-history/doctorMaster",
         name: "doctorMaster",
-        meta: { title: "doctorMaster", authRequired: true},
+        meta: { title: "doctorMaster",},
         component: () => import("../views/bird-health-history/doctorMaster.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/bird-health-history/report",
         name: "birdHealthHistoryReport",
-        meta: { title: "birdHealthHistoryReport", authRequired: true},
+        meta: { title: "birdHealthHistoryReport"},
         component: () => import("../views/bird-health-history/report.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/location",
         name: "ticketLocation",
-        meta: { title: "ticketLocation", authRequired: true },
+        meta: { title: "ticketLocation" },
         component: () => import("../views/ticket-management/addLocation.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/AgeCategory",
         name: "ticketAgeCategory",
-        meta: { title: "ticketAgeCategory", authRequired: true },
+        meta: { title: "ticketAgeCategory" },
         component: () => import("../views/ticket-management/ageCategory.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/inOutScan",
         name: "ticketInOutScan",
-        meta: { title: "ticketInOutScan", authRequired: true },
+        meta: { title: "ticketInOutScan"},
         component: () => import("../views/ticket-management/InOutScan.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/offers",
         name: "ticketOffers",
-        meta: { title: "ticketOffers", authRequired: true },
+        meta: { title: "ticketOffers" },
         component: () => import("../views/ticket-management/offer.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/ticketAttributes",
         name: "ticketAttributes",
-        meta: { title: "ticketAttributes", authRequired: true },
+        meta: { title: "ticketAttributes" },
         component: () => import("../views/ticket-management/ticketAttribute.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/verificationKios",
         name: "verificationKios",
-        meta: { title: "verificationKios", authRequired: true },
+        meta: { title: "verificationKios"},
         component: () => import("../views/ticket-management/verificationKios.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/report",
         name: "report",
-        meta: { title: "report", authRequired: true },
+        meta: { title: "report" },
         component: () => import("../views/ticket-management/report.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ticket/generateTicket",
         name: "generateTicket",
-        meta: { title: "generateTicket", authRequired: true },
+        meta: { title: "generateTicket" },
         component: () => import("../views/ticket-management/generateTicket.vue"),
+        beforeEnter: auth,
+    },
+    {
+        path: "/ticket/ticketDetails/:id",
+        name: "ticketDetail",
+        meta: { title: "ticketDetail" },
+        component: () => import("../views/ticket-management/ticketDetailsId.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/attendance/index",
         name: "attendanceIndex",
-        meta: { title: "attendanceIndex", authRequired: true },
+        meta: { title: "attendanceIndex" },
         component: () => import("../views/attendance-management/index.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/attendance/details/:id",
         name: "attendanceDetails",
-        meta: { title: "attendanceDetails", authRequired: true },
+        meta: { title: "attendanceDetails" },
         component: () => import("../views/attendance-management/attendanceDetails.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/attendance/employee",
         name: "employee",
-        meta: { title: "employee", authRequired: true },
+        meta: { title: "employee" },
         component: () => import("../views/attendance-management/employee.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/products-grid",
         name: "products-grid",
-        meta: { title: "Products Grid", authRequired: true },
+        meta: { title: "Products Grid" },
         component: () => import("../views/ecommerce/products-grid.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/product-details",
         name: "product-details",
-        meta: { title: "Product Overview", authRequired: true },
+        meta: { title: "Product Overview" },
         component: () => import("../views/ecommerce/product-details.vue"),
+        beforeEnter: auth
     },
     {
         path: "/ecommerce/add-product",
         name: "add-product",
-        meta: { title: "Add Product", authRequired: true },
+        meta: { title: "Add Product" },
         component: () => import("../views/ecommerce/add-product.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/orders",
         name: "orders",
-        meta: { title: "Orders", authRequired: true },
+        meta: { title: "Orders" },
         component: () => import("../views/ecommerce/orders.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/order-overview",
         name: "order-overview",
-        meta: { title: "Order Overview", authRequired: true },
+        meta: { title: "Order Overview" },
         component: () => import("../views/ecommerce/order-overview.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/customers",
         name: "customers",
-        meta: { title: "Customers", authRequired: true },
+        meta: { title: "Customers" },
         component: () => import("../views/ecommerce/customers.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/cart",
         name: "cart",
-        meta: { title: "Shop Cart", authRequired: true },
+        meta: { title: "Shop Cart" },
         component: () => import("../views/ecommerce/cart.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/checkout",
         name: "checkout",
-        meta: { title: "Checkout", authRequired: true },
+        meta: { title: "Checkout" },
         component: () => import("../views/ecommerce/checkout.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/sellers",
         name: "sellers",
-        meta: { title: "Sellers", authRequired: true },
+        meta: { title: "Sellers" },
         component: () => import("../views/ecommerce/sellers.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/ecommerce/seller-overview",
         name: "seller-overview",
-        meta: { title: "Seller Overview", authRequired: true },
+        meta: { title: "Seller Overview" },
         component: () => import("../views/ecommerce/seller-overview.vue"),
+        beforeEnter: auth,
     },
 
     // File Manager
     {
         path: "/file-manager",
         name: "file-manager",
-        meta: { title: "File Manager", authRequired: true },
+        meta: { title: "File Manager" },
         component: () => import("../views/file-manager/index.vue"),
+        beforeEnter: auth,
     },
 
     // Learning
@@ -369,152 +440,175 @@ export default [
     {
         path: "/learning/list",
         name: "courses-list-view",
-        meta: { title: "List View", authRequired: true },
+        meta: { title: "List View",  },
         component: () => import("../views/learning/courses/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/learning/grid",
         name: "courses-grid-view",
-        meta: { title: "Grid View", authRequired: true },
+        meta: { title: "Grid View" },
         component: () => import("../views/learning/courses/grid.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/learning/category",
         name: "category",
-        meta: { title: "Category", authRequired: true },
+        meta: { title: "Category" },
         component: () => import("../views/learning/courses/category.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/learning/overview",
         name: "courses-overview",
-        meta: { title: "Overview", authRequired: true },
+        meta: { title: "Overview" },
         component: () => import("../views/learning/courses/overview.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/learning/create",
         name: "create",
-        meta: { title: "Create Course", authRequired: true },
+        meta: { title: "Create Course" },
         component: () => import("../views/learning/courses/create.vue"),
+        beforeEnter: auth,
     },
 
     // Students
     {
         path: "/student/subscriptions",
         name: "my subscriptions",
-        meta: { title: "My Subscriptions", authRequired: true },
+        meta: { title: "My Subscriptions" },
         component: () => import("../views/learning/students/subscriptions.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/student/courses",
         name: "my courses",
-        meta: { title: "My Courses", authRequired: true },
+        meta: { title: "My Courses" },
         component: () => import("../views/learning/students/courses.vue"),
+        beforeEnter: auth,
     },
 
     // Instructors
     {
         path: "/instructors/list",
         name: "list View",
-        meta: { title: "List View", authRequired: true },
+        meta: { title: "List View" },
         component: () => import("../views/learning/instructors/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/instructors/grid",
         name: "grid view",
-        meta: { title: "Grid View", authRequired: true },
+        meta: { title: "Grid View" },
         component: () => import("../views/learning/instructors/grid.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/instructors/overview",
         name: "instructors-overview",
-        meta: { title: "Overview", authRequired: true },
+        meta: { title: "Overview" },
         component: () => import("../views/learning/instructors/overview.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/instructors/create",
         name: "create instructor",
-        meta: { title: "Create Instructor", authRequired: true },
+        meta: { title: "Create Instructor", },
         component: () => import("../views/learning/instructors/create.vue"),
+        beforeEnter: auth,
     },
 
     // Invoices
     {
         path: "/invoices/list",
         name: "invoice list",
-        meta: { title: "Invoice List", authRequired: true },
+        meta: { title: "Invoice List" },
         component: () => import("../views/invoices/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/invoices/overview",
         name: "invoice overview",
-        meta: { title: "Invoice Overview", authRequired: true },
+        meta: { title: "Invoice Overview" },
         component: () => import("../views/invoices/overview.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/invoices/create",
         name: "create invoice",
-        meta: { title: "Create Invoice", authRequired: true },
+        meta: { title: "Create Invoice" },
         component: () => import("../views/invoices/create.vue"),
+        beforeEnter: auth,
     },
 
     // Support Tickets
     {
         path: "/tickets/list",
         name: "tickets",
-        meta: { title: "Tickets", authRequired: true },
+        meta: { title: "Tickets" },
         component: () => import("../views/tickets/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/tickets/overview",
         name: "tickets overview",
-        meta: { title: "Tickets Overview", authRequired: true },
+        meta: { title: "Tickets Overview" },
         component: () => import("../views/tickets/overview.vue"),
+        beforeEnter: auth,
     },
 
     // Real Estate
     {
         path: "/real-estate/grid",
         name: "listing grid",
-        meta: { title: "Listing Grid", authRequired: true },
+        meta: { title: "Listing Grid" },
         component: () => import("../views/real-estate/listing-grid.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate/list",
         name: "listing list",
-        meta: { title: "Listing List", authRequired: true },
+        meta: { title: "Listing List" },
         component: () => import("../views/real-estate/listing-list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate/map",
         name: "listing map",
-        meta: { title: "Listing Map", authRequired: true },
+        meta: { title: "Listing Map"},
         component: () => import("../views/real-estate/listing-map.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate/property-overview",
         name: "property-overview",
-        meta: { title: "Property Overview", authRequired: true },
+        meta: { title: "Property Overview"},
         component: () => import("../views/real-estate/property-overview.vue"),
+        beforeEnter: auth,
     },
 
     // Agent
     {
         path: "/real-estate-agent/list",
         name: "agent-list",
-        meta: { title: "Agent List", authRequired: true },
+        meta: { title: "Agent List" },
         component: () => import("../views/real-estate/agent/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate-agent/grid",
         name: "agent-grid",
-        meta: { title: "Agent Grid", authRequired: true },
+        meta: { title: "Agent Grid" },
         component: () => import("../views/real-estate/agent/grid.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate-agent/overview",
         name: "real-estate-overview",
-        meta: { title: "Overview", authRequired: true },
+        meta: { title: "Overview" },
         component: () => import("../views/real-estate/agent/overview.vue"),
+        beforeEnter: auth,
     },
 
     // Agencies
@@ -522,27 +616,31 @@ export default [
     {
         path: "/real-estate-agencies/list",
         name: "list view",
-        meta: { title: "List View", authRequired: true },
+        meta: { title: "List View" },
         component: () => import("../views/real-estate/agencies/list.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate-agencies/overview",
         name: "overview",
-        meta: { title: "Overview", authRequired: true },
+        meta: { title: "Overview" },
         component: () => import("../views/real-estate/agencies/overview.vue"),
+        beforeEnter: auth,
     },
 
     {
         path: "/real-estate/add-properties",
         name: "add-property",
-        meta: { title: "Add Properties", authRequired: true },
+        meta: { title: "Add Properties" },
         component: () => import("../views/real-estate/add-properties.vue"),
+        beforeEnter: auth,
     },
     {
         path: "/real-estate/earnings",
         name: "earnings",
-        meta: { title: "Earnings", authRequired: true },
+        meta: { title: "Earnings" },
         component: () => import("../views/real-estate/earnings.vue"),
+        beforeEnter: auth,
     },
 
     // Pages

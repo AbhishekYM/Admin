@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 // import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 // import { useQuasar } from "quasar";
+import router from '@/router';
 
 export const useGenerateTicket = defineStore("generateTicket", () => {
   // const $q = useQuasar();
@@ -308,13 +309,14 @@ export const useGenerateTicket = defineStore("generateTicket", () => {
           }
       }, 5000);
       }
-      if (form.mode_of_payment === 'QR') {
-        // await generateTicketPDF(ticketId);
-        await generateTicketPDFPrint(ticketId);
+      const ticketDetailUrl = router.resolve({ name: 'ticketDetail', params: { id: ticketId } }).href;
+      window.open(ticketDetailUrl, '_blank');
+  
+      // if (form.mode_of_payment === 'QR') {
+      //   // await generateTicketPDF(ticketId);
+      //   await generateTicketPDFPrint(ticketId);
 
-      }else{
-        await generateTicketPDFPrint(ticketId);
-      }
+      // }
       Swal.fire({
         title: "Creating Ticket",
         html: '<i class="mdi mdi-spin mdi-loading"></i><br/>Please wait...',
@@ -365,18 +367,30 @@ export const useGenerateTicket = defineStore("generateTicket", () => {
   }
   async function generateTicketPDFPrint(ticketId) {
     try {
-      const pdfResponse = await window.axios.get(
-        `/tickets/${ticketId}/pdf`,
-        {
-          responseType: "blob",
-        }
-      );
-      const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
-      const objectUrl = URL.createObjectURL(blob);
-      window.open(objectUrl, "_blank");
-    } catch (error) {
-      console.error("Error generating ticket PDF:", error);
-    }
+    //   const pdfResponse = await window.axios.get(
+    //     `/tickets/${ticketId}/pdf`,
+    //     {
+    //       responseType: "blob",
+    //     }
+    //   );
+    //   const blob = new Blob([pdfResponse.data], { type: "application/pdf" });
+    //   const objectUrl = URL.createObjectURL(blob);
+    //   window.open(objectUrl, "_blank");
+    // } catch (error) {
+    //   console.error("Error generating ticket PDF:", error);
+    // }
+     // Fetch the ticket details (assuming this returns the payload with the pdf_url)
+     const response = await window.axios.get(`/tickets/${ticketId}/pdf`);
+     // Get the pdf_url from the response
+     const pdfUrl = response.data.pdf_url;
+     if (pdfUrl) {
+       window.open(pdfUrl, "_blank");
+     } else {
+       console.error("PDF URL not found in the response");
+     }
+   } catch (error) {
+     console.error("Error generating ticket PDF:", error);
+   }
   }
    
   function validateInput(event) {

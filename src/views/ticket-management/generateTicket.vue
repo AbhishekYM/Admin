@@ -15,9 +15,12 @@ onMounted(() => {
     store.getOffers();
     store.form.created_by = store.user.name;
 });
+const loading = ref(false);
 
 const fetchNameByContactNo = async (contactNo) => {
     try {
+        loading.value = true;
+
         const response = await axios.post('tickets/findContact', {
             contact_no: contactNo
         });
@@ -26,6 +29,8 @@ const fetchNameByContactNo = async (contactNo) => {
         } else {
             store.form.name = '';
         }
+        loading.value = false;
+
     } catch (error) {
         console.error('Error fetching name by contact number:', error);
         store.form.name = '';
@@ -33,13 +38,16 @@ const fetchNameByContactNo = async (contactNo) => {
 };
 
 // Watch for changes to contact_no
+// Watch for changes to contact_no
 watch(() => store.form.contact_no, (newContactNo) => {
-    if (newContactNo) {
+    // Only fetch name if the contact number has exactly 10 digits
+    if (newContactNo && newContactNo.length === 10) {
         fetchNameByContactNo(newContactNo);
     } else {
-        store.form.name = ''; // Clear the name if contact_no is empty
+        store.form.name = ''; // Clear the name if contact_no is empty or not 10 digits
     }
 });
+
 
 const categoryAmounts = computed(() => {
     const amounts = [];
@@ -231,6 +239,9 @@ const filteredSlots = computed(() => {
         </BBreadcrumb>
     </div>
     <div v-if="store.loading" class="loader-overlay">
+            <img src="/03-19-26-213_512.gif" alt="Loading..." class="loader-gif" />
+        </div>
+        <div v-if="loading" class="loader-overlay">
             <img src="/03-19-26-213_512.gif" alt="Loading..." class="loader-gif" />
         </div>
 
